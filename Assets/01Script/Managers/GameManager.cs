@@ -12,5 +12,29 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-   
+
+    ScrollManager scrollManager;
+
+
+    private void Start()
+    {
+        scrollManager = GameObject.FindAnyObjectByType<ScrollManager>();
+
+        StartCoroutine(GameStart());
+    }
+
+
+    // 게임시작할때 연출을 위해서 딜레이, 
+    // 
+    IEnumerator GameStart()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("게임 준비");
+        yield return new WaitForSeconds(2f);
+        scrollManager?.SetScrollSpeed(4f);
+
+        //null 체크 연산자
+           
+
+    }
 }

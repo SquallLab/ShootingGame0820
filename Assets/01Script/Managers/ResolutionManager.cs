@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 // 해상도 관리자. 
 // 플레이하는 디바이스의 해상도와 제작할때 기준이 된 해상도가 서로 다를때,
 // 레터박스와 세터박스의 기법을 활용해서 제작한 비율이 유지가 되도록. 
@@ -84,7 +83,6 @@ public class ResolutionManager : Singleton<ResolutionManager>
 
         // 카메라의 사각형 (rect) 설정 적용
         mainCam.rect = rt;
-
     }
 
     private void ConfigureCanvas()
