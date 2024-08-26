@@ -33,7 +33,22 @@ public class MyJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     // direction 의 값을 생성. 
     public void OnDrag(PointerEventData eventData)
     {
+        if(handle != null && pivot != null) 
+        {
+            // 조이스틱의 중심. pivot사의 거리를 계산. 
+            distance = Vector2.Distance(transform.position, pivot.position); // Distance 메소드 : 성능이 구려. 
+            // (transform.position - pivot.position).sqrMagnitude; // 거리비교 할떄는 sqrMagnitude ; 
+            handle.position = eventData.position; // 
 
+            float currentDist = Vector2.Distance(transform.position, handle.position);
+
+            direction = (handle.position - transform.position).normalized;// 방향벡터를 만들고, 그 방향벡터의 길이를 1로 만드는 노멀라이즈 작업. 
+
+            if(currentDist > distance) //  범위 밖으로 핸들을 이동했을때,
+            {
+                handle.localPosition = direction * distance;
+            }
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -43,5 +58,7 @@ public class MyJoystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoi
     // handle 초기 위치인 로컬기준에 0, 0, 0으로 변경. 
     public void OnPointerUp(PointerEventData eventData)
     {
+        direction = Vector2.zero;
+        handle.localPosition = Vector3.zero;
     }
 }
