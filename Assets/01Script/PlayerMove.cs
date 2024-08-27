@@ -6,7 +6,7 @@ using UnityEngine;
 // void Move() 캐릭터를 이동하는 역할. 
 public class PlayerMove : MonoBehaviour, IMovement
 {
-    private bool isMoving = false; // 켜져 있을때만 이동. 
+    private bool isMoving = true; // 켜져 있을때만 이동. 
 
     [SerializeField]
     private float moveSpeed = 5f; // 플레이어 이동 속도.
