@@ -16,17 +16,13 @@ public class PlayerWeapon : MonoBehaviour, IWeapon
 
     private bool isFiring = false; // 무기가 발사 중인지 관리하는 변수 
 
-    private void Update() // 0.0011
-    {
-        Fire();
-    }
-
 
     float startAngle;
     float angle;
     Quaternion fireRotation;
     GameObject obj;
     Projectile projectComp;
+
 
 
     public void Fire()
@@ -42,10 +38,12 @@ public class PlayerWeapon : MonoBehaviour, IWeapon
             // 프로젝타일의 이동방향(초기화)
 
             startAngle = -spreadAngle * (numOfProjectiles - 1) / 2;
+            Debug.Log(startAngle);
 
             for(int i = 0; i < numOfProjectiles; i++)
             {
                 angle = startAngle + spreadAngle * i;
+                Debug.LogFormat("{0}번째 투사체 {1}", i, angle);
 
                 fireRotation = firePoint.rotation * Quaternion.Euler(0, 0, angle);
 

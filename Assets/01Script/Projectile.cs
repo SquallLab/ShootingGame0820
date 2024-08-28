@@ -48,4 +48,18 @@ public class Projectile : MonoBehaviour, IMovement
     {
         Move(Vector2.zero);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+        if(collision.gameObject != owner && !collision.CompareTag(ownerTag))
+        {
+
+            // todo : 상대방에게 데미지 부여. 
+
+
+            Destroy(gameObject); // todo : 오브젝트 풀링. 수정. 
+        }
+    }
+
 }

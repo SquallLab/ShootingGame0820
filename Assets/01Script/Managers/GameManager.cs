@@ -19,7 +19,8 @@ public class GameManager : Singleton<GameManager>
     ScrollManager scrollManager;
 
     private IInputHandler inputHandler;
-    private IMovement movementController;
+    //private IMovement movementController;
+    private PlayerController pc;
 
     GameObject obj; // 
 
@@ -38,13 +39,19 @@ public class GameManager : Singleton<GameManager>
     {
         inputHandler = GetComponent<InputKeyboard>(); // 개발과정 임시.
 
-        obj = FindObjectsByType<PlayerMove>(FindObjectsSortMode.None)[0].gameObject;// 임시
+        pc = FindAnyObjectByType<PlayerController>();
 
-        if(obj != null)
-        {
-            if (!obj.TryGetComponent<IMovement>(out movementController))
-                Debug.Log("GameManager.cs - LoadSceneInit() - movementController참조 실패");
-        }
+        if (pc == null)
+            Debug.Log("GameManager.cs - LoadSceneInit() - pc 참조 실패");
+
+
+        //obj = FindObjectsByType<PlayerMove>(FindObjectsSortMode.None)[0].gameObject;// 임시
+
+        //if(obj != null)
+        //{
+        //    if (!obj.TryGetComponent<IMovement>(out movementController))
+        //        Debug.Log("GameManager.cs - LoadSceneInit() - movementController참조 실패");
+        //}
 
         //#if UNITY_EDITOR
         //        inputHandler = GetComponent<InputKeyboard>();
@@ -57,7 +64,7 @@ public class GameManager : Singleton<GameManager>
     {
         if(inputHandler!= null)
         {
-            movementController.Move( inputHandler.GetInput() );
+            pc?.CustomUpdate(inputHandler.GetInput());
         }
     }
 
@@ -70,9 +77,8 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("게임 준비");
         yield return new WaitForSeconds(2f);
         scrollManager?.SetScrollSpeed(4f);
+        pc?.StartGame(); 
 
-        //null 체크 연산자
-           
-
+    
     }
 }

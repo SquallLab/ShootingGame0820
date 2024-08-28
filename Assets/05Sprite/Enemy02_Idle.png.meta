@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Enemy02_Idle_3
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1
+        width: 81
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9eb22a1855054824ea689b3c14d573f4
+      internalID: 1647787671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy02_Idle_4
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 1
+        width: 104
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a885d5f1a5641a49bab691e8cfb6af0
+      internalID: -2138238484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Enemy02_Idle_5
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 1
+        width: 85
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3af1a37f74e842a4b8d3a2fd9d10e15c
+      internalID: 402138838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +182,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Enemy02_Idle_0: -272480563
+      Enemy02_Idle_1: -1310385084
+      Enemy02_Idle_2: -478680332
+      Enemy02_Idle_3: 1647787671
+      Enemy02_Idle_4: -2138238484
+      Enemy02_Idle_5: 402138838
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
