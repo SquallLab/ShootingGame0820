@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour, IMovement
 {
     [SerializeField]
     private float moveSpeed = 10f; // 이동속도.
-    private float damage; // 데미지.
+    private int damage; // 데미지.
     private Vector2 moveDir; // 이동방향
     private GameObject owner; // 발사시켜준 주인정보.
     private string ownerTag;  // 주인의 테그 ( 상대방 팀을 구분하기 위해서 )
@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour, IMovement
     private bool isInit = false; // 정보가 세팅이 되었을때만, 동작. 
 
     // 투사체의 기능을 수행하기 위해서 정보를 세팅해주는 초기화 함수. 
-    public void InitProjectile(Vector2 newDir, GameObject newOwner, float newDamage, float newSpeed)
+    public void InitProjectile(Vector2 newDir, GameObject newOwner, int newDamage, float newSpeed)
     {
         moveDir = newDir;
         damage = newDamage;
@@ -51,14 +51,24 @@ public class Projectile : MonoBehaviour, IMovement
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if(collision.gameObject != owner && !collision.CompareTag(ownerTag))
+        if (collision.gameObject == owner)
+            return;
+        if (collision.CompareTag(ownerTag))
+            return;
+
+
+        // 화면밖으로 벗어나서 부딪힌경우. 게임스코어 올려주면 X
+        // 플레이어가 Enemy맞췄을경우. 게임스코어를 증가. 
+        // enemy가 player맞췄을경우. 플레이어의 체력을 깍아주는 역할. 
+        if (collision.CompareTag("DestroyArea"))
         {
-
-            // todo : 상대방에게 데미지 부여. 
-
-
-            Destroy(gameObject); // todo : 오브젝트 풀링. 수정. 
+            Destroy(gameObject); // 오브젝트풀
+        }
+        else // 플레이어 맞았냐? enemy가 맞았냐? 
+        {
+            IDamaged damaged = collision.GetComponent<IDamaged>();
+            damaged?.TakeDamage(owner, damage);
+            Destroy(gameObject);
         }
     }
 

@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour, IMovement, IDamaged
     private bool isInit = false;
 
     // 퍼센트를 관리하기 위해서 maxHP; 
-    private int curHP;
+    private int curHP= 10;
     private int maxHP;
 
     public bool IsDead { get => curHP <= 0;  }  // =>람다식 { return curHP <= 0; }
@@ -60,12 +60,15 @@ public class Enemy : MonoBehaviour, IMovement, IDamaged
     private void OnDamaged()
     {
         // 데미지를 받을때 처리해야하는 로직을 모아서. 
+        Debug.LogFormat("공격 받았다 남은 HP : {0}", curHP);
     }
 
     private void OnDied()
     {
         // 데미지를 받다가, HP가 0이하로 떨어질때. 
         // 연출. 아이템드랍.
+        Debug.Log("으앙 쥬금");
+        Destroy(gameObject);
 
     }
 

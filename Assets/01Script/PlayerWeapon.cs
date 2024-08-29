@@ -38,18 +38,16 @@ public class PlayerWeapon : MonoBehaviour, IWeapon
             // 프로젝타일의 이동방향(초기화)
 
             startAngle = -spreadAngle * (numOfProjectiles - 1) / 2;
-            Debug.Log(startAngle);
 
             for(int i = 0; i < numOfProjectiles; i++)
             {
                 angle = startAngle + spreadAngle * i;
-                Debug.LogFormat("{0}번째 투사체 {1}", i, angle);
 
                 fireRotation = firePoint.rotation * Quaternion.Euler(0, 0, angle);
 
                 obj = Instantiate(projectilePrefab, firePoint.position, fireRotation);
                 projectComp = obj?.GetComponent<Projectile>(); // ?. 
-                projectComp?.InitProjectile(obj.transform.up, gameObject, 1f, 10f);
+                projectComp?.InitProjectile(obj.transform.up, gameObject, 1, 10f);
             }
         }
     }

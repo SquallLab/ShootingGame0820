@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    private IWeapon currentWeapon;
+    private IWeapon currentWeapon; // c++ 포인터 / C#참조형변수. 
     private IMovement movement;
 
 
@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         currentWeapon = GetComponent<IWeapon>();
+        //currentWeapon.Fire();
         movement = GetComponent<IMovement>();
     }
 
