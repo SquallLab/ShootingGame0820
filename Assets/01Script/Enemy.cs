@@ -22,6 +22,9 @@ public class Enemy : MonoBehaviour, IMovement, IDamaged
 
     public bool IsDead { get => curHP <= 0;  }  // =>람다식 { return curHP <= 0; }
 
+    public delegate void MonsterDiedEvent(Enemy enemyInfo);
+    public static event MonsterDiedEvent OnMonsterDied;
+
 
 
     // todo : 매니저 추가하고 수정될 코드. 
@@ -65,6 +68,7 @@ public class Enemy : MonoBehaviour, IMovement, IDamaged
 
     private void OnDied()
     {
+        OnMonsterDied?.Invoke(this);
         // 데미지를 받다가, HP가 0이하로 떨어질때. 
         // 연출. 아이템드랍.
         Debug.Log("으앙 쥬금");
