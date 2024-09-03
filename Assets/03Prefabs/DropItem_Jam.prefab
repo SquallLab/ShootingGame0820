@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5346272855988959384}
   - component: {fileID: 2295242374443992085}
   - component: {fileID: 2804610005726501261}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DropItem_Jam
-  m_TagString: Untagged
+  m_TagString: PickupItem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

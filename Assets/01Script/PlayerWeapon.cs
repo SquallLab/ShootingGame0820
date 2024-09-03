@@ -9,7 +9,7 @@ public class PlayerWeapon : MonoBehaviour, IWeapon
     [SerializeField]
     private Transform firePoint;    // 투사체 발사위치
 
-    private int numOfProjectiles = 1; // 투사체 발사되는 갯수.
+    private int numOfProjectiles = 5; // 투사체 발사되는 갯수.
     private float spreadAngle = 5; // 투사체가 여러발 발사 될때, 사이 간격 
     private float fireRate = 0.3f; // 투사체 발사 간격 
     private float nextFireTime = 0f;

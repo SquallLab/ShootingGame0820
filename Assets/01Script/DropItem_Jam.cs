@@ -14,6 +14,11 @@ public class DropItem_Jam : MonoBehaviour, IPickuped
     CircleCollider2D col;
     Rigidbody2D rig;
 
+    private bool isSetTarget = false;
+    private GameObject target;
+    private float pickupTimePer; 
+
+
     private void Awake()
     {
         if(TryGetComponent<CircleCollider2D>(out col))
@@ -34,13 +39,28 @@ public class DropItem_Jam : MonoBehaviour, IPickuped
         }
     }
 
+    private void Update()
+    {
+        if(isSetTarget && target.activeSelf)
+        {
+            pickupTimePer += Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, target.transform.position, pickupTimePer / 2f);
 
-
+            if(pickupTimePer / 2f > 1f)
+            {
+                OnPickupJam?.Invoke();
+                Destroy(gameObject); // 오브젝트풀 적용 예정. 
+            }
+        }
+    }
 
 
     public void OnPickup(GameObject picker)
     {
-        OnPickupJam?.Invoke();
-        Destroy(gameObject); // 오브젝트풀 적용 예정. 
+        rig.gravityScale = 0f;
+        rig.velocity = Vector3.zero;
+        isSetTarget = true;
+        target = picker;
+        pickupTimePer = 0f;
     }
 }
