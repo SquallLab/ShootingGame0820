@@ -12,7 +12,8 @@ using UnityEngine;
 // 몬스터에서 드랍될수있고, 
 // 플레이어가 습득할수 있고,
 // 월드를 두둥실 떠다닌다. 
-
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(CircleCollider2D))]
 public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
 {
 
@@ -20,14 +21,48 @@ public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
 
 
     private bool isInit = false;
-
     private float flySpeed = 0.7f;
     private Vector2 flyDirection = Vector2.zero;
     private Vector3 flyTargetPos;
+    private Rigidbody2D rig;
+    private CircleCollider2D col;
+    private CircleCollider2D Col
+    {
+        get
+        {
+            if(col == null)
+            {
+                col = GetComponent<CircleCollider2D>();
+            }
+            return col;
+        }
+    }
+
+    private ScoreManager scoreManager;
+
+    protected ScoreManager ScoreMgr
+    {
+        get
+        {
+            if (scoreManager == null)
+                scoreManager = FindAnyObjectByType<ScoreManager>();
+            return scoreManager;
+        }
+    }
+
+
 
 
     private void Awake()
     {
+        if( TryGetComponent<Rigidbody2D>(out rig))
+        {
+            rig.gravityScale = 0f;
+        }
+
+        Col.isTrigger = true;
+        Col.radius = 0.23f;
+
         SetEnable(true);
         Debug.Log("시작");
     }
@@ -47,6 +82,7 @@ public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
 
     public void SetEnable(bool newEnable)
     {
+
         isInit = newEnable;
         Debug.Log("시작22");
 
@@ -58,7 +94,7 @@ public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
 
     public void OnPickup(GameObject picker)
     {
-        throw new System.NotImplementedException();
+        ApplyEffect(picker);
     }
 
 
@@ -75,4 +111,7 @@ public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
             yield return new WaitForSeconds(4f);
         }
     }
+
+
+
 }

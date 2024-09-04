@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,8 @@ public class ScoreManager : MonoBehaviour
     public static event ScoreChange OnChangeJamCount;
     public static event ScoreChange OnChangeHP;
     public static event ScoreChange OnChangeBomb;
-
+    public static event ScoreChange OnChangePower;
+    
     private int score; // 게임에서 플레이어가 습득한 점수, 적을처치하거나, 보석을 습득했을때마다. 
     private int curHP; // 플레이어 현 HP
     private int maxHP; // 플레이어 최대 HP
@@ -80,7 +82,30 @@ public class ScoreManager : MonoBehaviour
 
         jamCount++;
         OnChangeJamCount?.Invoke(jamCount);
+    }
 
+    // 체력 1회복 
+    public void IncreaseHP()
+    {
+        curHP++;
+        if(curHP > maxHP)
+        {
+            curHP = maxHP;
+        }
+
+        OnChangeHP?.Invoke(curHP);
+    }
+
+    public void IncreaseBombCount()
+    {
+        bombCount++;
+        OnChangeBomb?.Invoke(bombCount);
+    }
+
+    public void PowerUp()
+    {
+        powerLevel++;
+        OnChangePower?.Invoke(powerLevel);
     }
 
 

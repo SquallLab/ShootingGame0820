@@ -8,6 +8,8 @@ public class ItemDropManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject jamPrefab;
+    [SerializeField]
+    private List<GameObject> flyItems;
 
     GameObject obj;
 
@@ -21,12 +23,24 @@ public class ItemDropManager : MonoBehaviour
         Enemy.OnMonsterDied -= HandleEnemyDie;
     }
 
+
+    private int dropRate;
     private void HandleEnemyDie(Enemy enemyInfo)
     {
         for(int i = 0; i < 7; i++)
         {
             obj = Instantiate(jamPrefab, enemyInfo.transform.position, Quaternion.identity);
         }
+
+        dropRate = Random.Range(0, 1000);
+
+        if(dropRate < 10)
+            obj = Instantiate(flyItems[0], enemyInfo.transform.position, Quaternion.identity);
+        else if (dropRate < 20)
+            obj = Instantiate(flyItems[1], enemyInfo.transform.position, Quaternion.identity);
+        else if (dropRate < 500)
+            obj = Instantiate(flyItems[2], enemyInfo.transform.position, Quaternion.identity);
+
     }
 
 }
