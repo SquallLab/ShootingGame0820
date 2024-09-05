@@ -95,6 +95,7 @@ public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
     public void OnPickup(GameObject picker)
     {
         ApplyEffect(picker);
+        Destroy(gameObject);
     }
 
 
@@ -111,7 +112,4 @@ public abstract class FlyItemBase : MonoBehaviour, IMovement, IPickuped
             yield return new WaitForSeconds(4f);
         }
     }
-
-
-
 }
