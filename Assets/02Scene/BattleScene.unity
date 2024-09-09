@@ -2161,7 +2161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1216871076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2174,6 +2174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4eaaa28f08b4574ca4e3919e35cb6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alertLinePrefabs: {fileID: 2876835056126462190, guid: 2bcbff428bb41234a846274a1ee5743a, type: 3}
 --- !u!4 &1216871077
 Transform:
   m_ObjectHideFlags: 0
@@ -2687,6 +2688,10 @@ MonoBehaviour:
   - {fileID: 1675478254082085095, guid: 58c9050cc0ab8f64f8fdfbf77d0ff4b9, type: 3}
   - {fileID: 2084905276874938707, guid: 2b4f694b9df07a24cae3a92f35881d7a, type: 3}
   - {fileID: 6201839399719803479, guid: f6a877f0df6f3094e9ca6c2e58fe5486, type: 3}
+  spawnBossPrefabs:
+  - {fileID: 7370704492128837069, guid: a79024de8954bb442a25c59813f79bb7, type: 3}
+  - {fileID: 6241675583847335049, guid: b67538e5cd322e5498a30b43893ab132, type: 3}
+  - {fileID: 104412999764257261, guid: 98ea6f51e5e74514aad55c9e51e92375, type: 3}
 --- !u!4 &1411284431
 Transform:
   m_ObjectHideFlags: 0

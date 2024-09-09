@@ -11,15 +11,49 @@ using UnityEngine;
 
 public class MeteoManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private GameObject alertLinePrefabs;
+
+    private float spawnDelta = 3f;
+    private GameObject obj;
+
+    private AlertLine alertLine;
+    private Vector3 spawnPos = Vector3.zero;
+    private bool isInit = false;
+
+    private void Awake()
     {
-        
+        StartSpawnMeteo(); // 게임 매니저에서 수정예정. 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartSpawnMeteo()
     {
-        
+        StartCoroutine("SpawnMeteo");
+    }
+    public void StopSpawnMeteo()
+    {
+        StopCoroutine("SpawnMeteo");
+    }
+
+    IEnumerator SpawnMeteo()
+    {
+        yield return null;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(spawnDelta);
+            spawnPos.x = Random.Range(-2.2f, 2.2f);
+
+            obj = Instantiate(alertLinePrefabs, spawnPos, Quaternion.identity);
+            if(obj.TryGetComponent<AlertLine>(out alertLine))
+            {
+                alertLine.SpawnedLine();
+            }
+        }
+    }
+
+    public void SetSpawnDelta(float newSpawnDelta)
+    {
+        spawnDelta = Mathf.Clamp( newSpawnDelta, 0.5f, 3f);
     }
 }

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+// 여러타입의 Weapon을 만들고, 
+// 교체해가면서 쓸수 있도록. 
 public class PlayerWeapon : MonoBehaviour, IWeapon
 {
     [SerializeField]

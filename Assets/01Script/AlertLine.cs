@@ -21,7 +21,7 @@ public class AlertLine : MonoBehaviour
     
     public void SpawnedLine()
     {
-        anims.SetTrigger("Spawn");
+        Anims.SetTrigger("Spawn");
         Invoke("SpawnMeteo", 2f);
         // 애니메이션 재생 해죽, 
         // 애니메이션 종료가 되면, 
