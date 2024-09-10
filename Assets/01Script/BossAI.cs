@@ -15,7 +15,7 @@ public enum BossState
 // 1스크립트에서 2가지 기능을 모두 구현을 해줄께요. 
 // 
 
-public class BossAI : MonoBehaviour, IMovement
+public class BossAI : MonoBehaviour, IMovement, IDamaged
 {
     [SerializeField]
     private float bossAppearPointY = 2.5f;
@@ -25,12 +25,32 @@ public class BossAI : MonoBehaviour, IMovement
     private IWeapon curWeapon;
     // 무기 추가 구현... 
 
+    private Vector2 moveDir = Vector2.zero;
+    private bool isInit = false;
+    private float moveSpeed = 3f;
+    private string bossName;
+    private int maxHP;
+    private int curHP;
+    public bool IsDead { get => curHP <= 0; }
+
+    public delegate void BossDiedEvent();
+    public event BossDiedEvent OnBossDied;
+
+
+
+
+
     public void InitBoss(string name, int newHP, IWeapon[] newWeapons)
     {
         // ui 변경 
         // new hp 
+        bossName = name;
+        curHP = maxHP = newHP;
+
         weapons = newWeapons;
 
+        SetEnable(true);
+        ChangeState(BossState.BS_MoveToAppear); //  FSM 초기상태값; 
     }
 
 
@@ -51,13 +71,14 @@ public class BossAI : MonoBehaviour, IMovement
             // Y : 전투모드 돌입.
             // N :  계속해서 이동한다. 
 
-        Move(Vector3.down);
+        //Move(Vector3.down);
+        moveDir = Vector2.down;
 
         while (true)
         {
             if(transform.position.y <= bossAppearPointY) // 도달했다면 
             {
-                Move(Vector3.zero); // 이동을 멈춘다. 
+                moveDir = Vector2.zero;
                 ChangeState(BossState.BS_Phase01);
             }
             // 도달하지 못했다면.... 
@@ -75,7 +96,7 @@ public class BossAI : MonoBehaviour, IMovement
         while (true)
         {
             curWeapon.Fire();
-            yield return null;
+            yield return new WaitForSeconds(0.4f);
         }
 
     }
@@ -85,9 +106,7 @@ public class BossAI : MonoBehaviour, IMovement
         curWeapon = weapons[1];
         // 좌 우 번갈아가면서 이동, 
 
-        Vector2 dir = Vector2.right;
-
-        Move(dir);
+        moveDir = Vector2.right;
 
         while (true)
         {
@@ -97,26 +116,56 @@ public class BossAI : MonoBehaviour, IMovement
             if(transform.position.x <= -2.5f 
                 || transform.position.x >= 2.5f)
             {
-                dir *= -1f; // 방향 반전. 
-                Move(dir);
+                moveDir *= -1f; // 방향 반전. 
             }
             yield return new WaitForSeconds(0.5f);
         }
     }
-
-
-
-
-
-
-
-
-
+    private void Update()
+    {
+        if (isInit)
+            Move(moveDir);
+    }
     public void Move(Vector2 direction)
     {
+        transform.Translate(moveDir * (moveSpeed * Time.deltaTime));
     }
 
     public void SetEnable(bool newEnable)
     {
+        isInit = newEnable;
+    }
+
+    public void TakeDamage(GameObject attacker, int damage)
+    {
+        if (!IsDead)
+        {
+            curHP -= damage;
+            if (curHP > 0)
+                OnDamaged();
+            else
+                OnDied();
+        }
+    }
+
+    private void OnDamaged()
+    {
+        // 데미지를 받을때 처리해야하는 로직을 모아서. 
+        Debug.LogFormat("공격 받았다 남은 HP : {0}", curHP);
+
+        if(bossState == BossState.BS_Phase01 && (float)curHP / maxHP < 0.5f) // HP가 50%미만으로 떨이게 되면,
+        {
+            ChangeState(BossState.BS_Phase02);// 2번 패턴이 나오도록 수정... 
+        }
+    }
+
+    private void OnDied()
+    {
+        OnBossDied?.Invoke();
+        // 데미지를 받다가, HP가 0이하로 떨어질때. 
+        // 연출. 아이템드랍.
+        Debug.Log("으앙 쥬금");
+        Destroy(gameObject);
+
     }
 }

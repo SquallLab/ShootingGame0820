@@ -45,10 +45,15 @@ public class PlayerWeapon : MonoBehaviour, IWeapon
                 angle = startAngle + spreadAngle * i;
 
                 fireRotation = firePoint.rotation * Quaternion.Euler(0, 0, angle);
+                Vector2 fireDir = fireRotation * Vector2.up;
 
-                obj = Instantiate(projectilePrefab, firePoint.position, fireRotation);
-                projectComp = obj?.GetComponent<Projectile>(); // ?. 
-                projectComp?.InitProjectile(obj.transform.up, gameObject, 1, 10f);
+
+                //오브젝트 풀링 -> 
+                //obj = Instantiate(projectilePrefab, firePoint.position, fireRotation);
+                //projectComp = obj?.GetComponent<Projectile>(); // ?. 
+                //projectComp?.InitProjectile(obj.transform.up, gameObject, 1, 10f);
+                ProjectileManager.Inst.FireProjectile(ProjectileType.Player01, firePoint.position, fireDir,
+                    gameObject, 1, 10f);
             }
         }
     }
@@ -56,5 +61,10 @@ public class PlayerWeapon : MonoBehaviour, IWeapon
     public void SetEnable(bool enable)
     {
         isFiring = enable;
+    }
+
+    public void SetOwner(GameObject newOwner)
+    {
+
     }
 }
