@@ -16,20 +16,21 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
 
-    ScrollManager scrollManager;
+    
 
     private IInputHandler inputHandler;
-    //private IMovement movementController;
     private PlayerController pc;
+    private ScrollManager scrollManager;
+    private MeteoManager meteoManager;
+    private SpawnManager spawnManager;
+    private ScoreManager scoreManager;
 
     GameObject obj; // 
 
     private void Start()
     {
-        scrollManager = GameObject.FindAnyObjectByType<ScrollManager>();
-        StartCoroutine(GameStart());
-
         LoadSceneInit(); // 임시: 나중에 씬 변경이 될때, 호출하도록 변경.
+        StartCoroutine(GameStart());
     }
 
     // 씬이 변경이 될때, 
@@ -38,11 +39,11 @@ public class GameManager : Singleton<GameManager>
     private void LoadSceneInit()
     {
         inputHandler = GetComponent<InputKeyboard>(); // 개발과정 임시.
-
         pc = FindAnyObjectByType<PlayerController>();
-
-        if (pc == null)
-            Debug.Log("GameManager.cs - LoadSceneInit() - pc 참조 실패");
+        scrollManager = FindAnyObjectByType<ScrollManager>();
+        spawnManager = FindAnyObjectByType<SpawnManager>();
+        scoreManager = FindAnyObjectByType<ScoreManager>();
+        meteoManager = FindAnyObjectByType<MeteoManager>();
 
 
         //obj = FindObjectsByType<PlayerMove>(FindObjectsSortMode.None)[0].gameObject;// 임시
@@ -73,12 +74,46 @@ public class GameManager : Singleton<GameManager>
     // 
     IEnumerator GameStart()
     {
+        yield return null;
+        Debug.Log("게임 데이터 초기화");
+        scoreManager?.InitScoreSet();
+        scoreManager.OnDiedPlyer += PlayerDieProcess;
         yield return new WaitForSeconds(2f);
-        Debug.Log("게임 준비");
-        yield return new WaitForSeconds(2f);
+        pc?.StartGame(); // 공격을 시작하고, 입력을 받기 시작. 
+        Debug.Log("플레이어 컨트롤 On");
+        yield return new WaitForSeconds(1f);
         scrollManager?.SetScrollSpeed(4f);
-        pc?.StartGame(); 
+        Debug.Log("배경 스크롤 시작");
+        yield return new WaitForSeconds(2f);
+        spawnManager?.InitSpawnManager();
+        Debug.Log("몬스터 스폰 시작");
+        yield return new WaitForSeconds(5f);
+        meteoManager.StartSpawnMeteo();
+
 
     
+    }
+
+    private void PlayerDieProcess()
+    {
+        StopAllCoroutines();
+        StartCoroutine(GameOver());
+    }
+
+    IEnumerator GameOver()
+    {
+        yield return null;
+        scoreManager.OnDiedPlyer -= PlayerDieProcess;
+        pc?.OverGame();
+        scrollManager?.SetScrollSpeed(0f);
+
+        spawnManager?.StopSpawnManager();
+        meteoManager?.StopSpawnMeteo();
+
+        yield return new WaitForSeconds(3f);
+        // 팝업 오픈 
+
+
+            
     }
 }

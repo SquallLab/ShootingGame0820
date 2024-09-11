@@ -23,10 +23,20 @@ public class SpawnManager : MonoBehaviour
     private int spawnCount = 0;
 
 
-    private void Awake()
+
+    public void InitSpawnManager()
     {
+        spawnLevel = 0;
+        spawnCount = 0;
+        spawnDelta = 3f;
         StartCoroutine(SpawnEnemys());
     }
+
+    public void StopSpawnManager()
+    {
+        StopAllCoroutines(); // 해당 객체에서 시작된 코루틴을 모두 정지 시키는 메소드. 
+    }
+
 
 
     GameObject obj;

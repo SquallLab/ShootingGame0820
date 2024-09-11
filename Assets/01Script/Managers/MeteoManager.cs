@@ -21,10 +21,7 @@ public class MeteoManager : MonoBehaviour
     private Vector3 spawnPos = Vector3.zero;
     private bool isInit = false;
 
-    private void Awake()
-    {
-        StartSpawnMeteo(); // 게임 매니저에서 수정예정. 
-    }
+
 
     public void StartSpawnMeteo()
     {

@@ -16,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     public static event ScoreChange OnChangeHP;
     public static event ScoreChange OnChangeBomb;
     public static event ScoreChange OnChangePower;
+    public event Action OnDiedPlyer; 
     
     private int score; // 게임에서 플레이어가 습득한 점수, 적을처치하거나, 보석을 습득했을때마다. 
     private int curHP; // 플레이어 현 HP
@@ -62,11 +63,21 @@ public class ScoreManager : MonoBehaviour
     {
         Enemy.OnMonsterDied += HandleMonsetDied;
         DropItem_Jam.OnPickupJam += HandleJamPickup;
+        PlayerHitBox.OnPlayerHpIncreased += PlayerHPChange;
     }
     private void OnDisable()
     {
         Enemy.OnMonsterDied -= HandleMonsetDied;
         DropItem_Jam.OnPickupJam -= HandleJamPickup;
+        PlayerHitBox.OnPlayerHpIncreased -= PlayerHPChange;
+    }
+
+    public void PlayerHPChange(bool isIncreased)
+    {
+        if (isIncreased)
+            IncreaseHP();
+        else
+            DecreaseHP();
     }
 
     private void HandleMonsetDied(Enemy enemyInfo)
@@ -95,6 +106,18 @@ public class ScoreManager : MonoBehaviour
 
         OnChangeHP?.Invoke(curHP);
     }
+    public void DecreaseHP()
+    {
+        Debug.LogFormat("남은 체력 {0}", curHP);
+        curHP--;
+        OnChangeHP?.Invoke(curHP);
+        if (curHP < 1)
+        {
+            curHP = 0;
+            OnDiedPlyer?.Invoke();
+        }
+    }
+
 
     public void IncreaseBombCount()
     {

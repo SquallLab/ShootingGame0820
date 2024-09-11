@@ -74,6 +74,7 @@ public class UIManager : MonoBehaviour
         ScoreManager.OnChangeScore += UpdateScoreText;
         ScoreManager.OnChangeBomb += UpdateBombText;
         ScoreManager.OnChangeJamCount += UpdateJamText;
+        ScoreManager.OnChangeHP += UpdatePlayerHP;
     }
 
     private void OnDisable()
@@ -81,6 +82,7 @@ public class UIManager : MonoBehaviour
         ScoreManager.OnChangeScore -= UpdateScoreText;
         ScoreManager.OnChangeBomb -= UpdateBombText;
         ScoreManager.OnChangeJamCount -= UpdateJamText;
+        ScoreManager.OnChangeHP -= UpdatePlayerHP;
     }
 
     private void UpdateScoreText(int score)
@@ -96,5 +98,16 @@ public class UIManager : MonoBehaviour
     private void UpdateJamText(int score)
     {
         JamText.text = score.ToString();
+    }
+    private void UpdatePlayerHP(int score)
+    {
+
+        for(int i = 0; i < 5; i++)
+        {
+            if(i < score)
+                heartImg[i].enabled = true;
+            else
+                heartImg[i].enabled = false;
+        }
     }
 }
